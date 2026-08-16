@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tmp/
+
+# Environments and editors
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+*.code-workspace
+
+# Local configuration
+.env
+.env.*
+config/local*.yaml
+config/env/local*.yaml
+
+# Data, outputs, and experiment state
+data/
+datasets/
+outputs/
+results/
+runs/
+logs/
+wandb/
+tensorboard/
+checkpoints/
+perf_results/
+
+# Model weights and large binary artifacts
+*.pth
+*.pt
+*.ckpt
+*.pkl
+*.safetensors
+weights/*
+!weights/README.md
+
+# Evaluation products
+*.csv
+*.npy
+*.npz
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

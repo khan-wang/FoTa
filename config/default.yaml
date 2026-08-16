@@ -1,0 +1,545 @@
+# FoTa-Net default configuration.
+# Machine-specific paths should be supplied through config/env/*.yaml or a
+# user override passed with --config.
+
+# ---- Runtime and reproducibility ----
+RUN_MODE: "public"
+DEVICE: "cuda"
+GLOBAL_SEED: 3407
+DETECT_ANOMALY: false
+DETECT_ANOMALY_INITIAL_STEPS: 2000
+PROFILE_AT_START: false
+SCHEDULE_ABSOLUTE: true
+OVERRIDE_LR_ON_RESUME: true
+MIN_EXPECTED_LR_D: 1.0e-5
+FINETUNE_LR_MULT_G: 0.75
+FINETUNE_LR_MULT_D: 1.20
+
+# ---- Paths ----
+RESULTS_BASE_DIR: "./outputs"
+RAW_DATA_ROOT: "./data/train"
+VAL_DATA_ROOT: "./data/val"
+HRF_LOSS_WEIGHTS_PATH: null
+REQUIRE_HRF_LOSS_WEIGHTS: false
+IRREGULAR_MASK_FLIST: []
+SEGMENT_MASK_FLIST: []
+
+
+DATALOADER_START_METHOD: "spawn"
+DATASET_FRACTION: 1.0
+MASK_SEQ_SAMPLING: true
+P_IRREGULAR: 0.60
+P_COMBINE: 0.20
+MASK_HOLE_RANGE: [0.10, 0.50]
+RANDOM_FLIP_P: 0.5
+
+
+AMP_DTYPE: "bf16"
+torch_compile: false
+compile_mode: "reduce-overhead"
+compile_backend: "inductor"
+compile_fullgraph: false
+compile_dynamic: true
+compile_disable_cudagraphs: true
+compile_g: false
+compile_d: false
+DDP_FIND_UNUSED_PARAMETERS_G: false
+DDP_BUCKET_CAP_MB: 25
+GRAD_CLIP_NORM: 1.0
+
+# ---- Checkpoint / Resume ----
+RESUME: false
+RESUME_AUTO: false
+RESUME_CHECKPOINT: null
+INIT_FROM_G_EMA: null
+RECOVERY_STEPS: 2000
+SAVE_BEST_EMA_WEIGHTS: true
+SAVE_LATEST_AT_EPOCH_END: true
+EMA_MOMENTUM: 0.999
+FINETUNE_MODE: false
+RESET_OPT_AND_SCHED: false
+FREEZE_ENCODER_STEPS: 0
+FINETUNE:
+  START_FROM_EMA_WEIGHTS: true
+  SCHED_ANCHOR_LOCAL_STEP: false
+
+# ---- Training length and logging ----
+NUM_EPOCHS: 500
+MAX_STEPS_PER_RUN: 1700000
+CHECKPOINT_INTERVAL: 2000
+LOG_INTERVAL: 500
+METRICS_INTERVAL: 2000
+EVAL_EVERY_STEPS: 2000
+VIS_INTERVAL: 600
+SAVE_VIZ_PER_EPOCH: 8
+VIZ_MASK_SEED: 42
+LATENCY_WINDOW: 100
+VIZ_UPSCALE: 1
+VIZ_PER_ROW: 4
+VIZ_SAVE_INDIVIDUAL: false
+TBOARD_FLUSH_EVERY: 500
+
+LEARNING_RATE_G: 5.0e-5
+LEARNING_RATE_D: 5.0e-5
+ADAM_BETAS_D: [0.0, 0.99]
+D_LR_FLOOR: 3.0e-5
+WARMUP_STEPS: 2000
+
+
+MIN_STEPS_BEFORE_EARLY_STOP: 80000
+EARLY_STOP:
+  PATIENCE: 80
+  DELTA_DB: 0.003
+  DELTA_LPIPS: 0.004
+  USE_LPIPS_KEY: lpips_mask_alex
+EARLY_STOP_HARD:
+  ENABLED: false
+  NO_NEW_BEST_IN_LAST_EVALS: 30
+
+# ==============================================================================
+
+# ==============================================================================
+IMG_SIZE: 256
+IMG_CHANNEL: 3
+DISC_INPUT_NC: 4
+OUT_CHANNEL: 3
+EMBED_DIM: [32, 64, 128, 256]
+NUM_BLOCKS: [0, 0, 6, 8]
+ENCODER_BLOCKS: [1, 1, 1, 1]
+HEADS: [1, 2, 4, 8]
+USE_CPE: true
+FOCUSING_FACTOR: 6.0
+FNO_STAGES: [3]
+FNO_MODES_PER_STAGE: [0, 0, 0, 16]
+FNO_CHANNEL_BOTTLENECK: 0.5
+USE_CMT: false
+CMT_STAGES: [1, 2, 3]
+CMT_SHIFTED: true
+CMT_ALPHA_MAX: 0.2
+CMT_WARMUP_STEPS: 2000
+USE_DSDCN: true
+DSDCN_BACKEND: "auto"
+DSDCN_MODE: "compat"
+DSDCN_CLAMP: 1.0
+USE_MASK_IN_D: true
+WEIGHT_D_BY_MASK_MAXPOOL: true
+
+# ==============================================================================
+
+# ==============================================================================
+
+
+GAN_LOSS: "hinge"
+ADVERSARIAL_WEIGHT: 0.12
+GAN_CAP: 0.35
+ADV_DELAY_STEPS: 1000
+ADV_WARMUP_STEPS: 4000
+USE_R1: true
+R1_REGION: "border"
+USE_ROI_GAN: true
+ROI_ADV_WEIGHT: 0.30
+INST_NOISE_SIGMA_MAX: 0.10
+INST_NOISE_ANNEAL_STEPS: 10000
+D_SOFT_STOP_THRESHOLD: -1.0
+D_SOFT_STOP_LEAK_STEPS: 0
+D_STALL_TOLERANCE: 48
+D_STALLED_GAP_ABS: 0.030
+GAN_STRONG_COOLDOWN_STEPS: 12000
+GAN_RECOVERY_CAP: 0.30
+
+L1_VALID_WEIGHT: 1.0
+L1_HOLE_WEIGHT: 6.0
+TV_INHOLE_WEIGHT: 0.15
+SEAM_KERNEL_SIZE: 7
+BORDER_KERNEL: 33
+SEAM_LOSS_WEIGHT: 1.0
+SEAM_GRAD_WEIGHT: 0.7
+USE_EDGE_LOSS: true
+EDGE_WEIGHT: 1.0
+FEATURE_MATCH_WEIGHT: 10.0
+LPIPS_TRAIN_MICROBATCH: 2
+PERC_WEIGHT: 0.12
+GATE_PRIOR_WEIGHT: 0.05
+R1_EVERY_STEPS: 16
+R1_GAMMA: 6.0
+SPECTRAL_L1_WEIGHT: 0.1
+SPECTRAL_L1_WEIGHT_SCHEDULE: []
+
+PERC_MASK_MODE: "band"
+PERC_BAND_WIDTH: 21
+
+
+
+# ---- Mask Bank & Curriculum ----
+MASK_BANK:
+  IRR_ROOT: ""
+  COCO_ROOT: ""
+  BINS: ["5_10", "10_20", "20_30", "30_40", "40_50"]
+  TRAIN_SOURCES: ["irr", "coco"]
+  MIX_RATIO: [0.5, 0.5]
+
+MASK_CURRICULUM:
+  ENABLED: true
+  SCHEDULE:
+    - { end_step: 2000, allowed_bins: ["5_10"] }
+    - { end_step: 4000, allowed_bins: ["5_10", "10_20"] }
+    - { end_step: 7000, allowed_bins: ["5_10", "10_20", "20_30"] }
+    - { end_step: 12000, allowed_bins: ["5_10", "10_20", "20_30", "30_40"] }
+    - { end_step: 1500000, allowed_bins: ["5_10", "10_20", "20_30", "30_40", "40_50"] }
+    - { end_step: 99999999, allowed_bins: ['10_20', '20_30', '30_40', '40_50', '40_50'] }
+# ---- Sanity & Debug ----
+SANITY:
+  NAN_GUARD: true
+  NAN_GUARD_UNTIL: 5000
+  NAN_GUARD_EVERY: 50
+  SANITIZE_ALWAYS: true
+
+# =======================================
+#  FSM & Phase Scheduling (v3.0-Light)
+# =======================================
+PHASES:
+  # -------------------------------------------
+
+  # -------------------------------------------
+  - name: d_warmup_priority
+    start: 0
+    dur: 20k
+
+    lr_g_target: 8.0e-5
+    lr_d_target: 1.5e-4
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 0.1
+
+    adversarial_weight: 0.05
+    roi_scale: 0.0
+    roi_adv_weight: 0.0
+    gan_cap: 0.20
+
+    fm_weight: 1.0
+    seam_weight: 0.0
+    perc_in_weight: 0.0
+    perc_out_weight: 0.0
+    l1_hole_weight: 6.0
+    tv_inhole_weight: 0.15
+
+    spec_l1_weight: 0.0
+    spectral_dropout_rate: 0.0
+    gate_temp: 1.0
+    gate_prior_weight: 0.0
+    lpips_weight: 0.0
+  # -------------------------------------------
+
+  # -------------------------------------------
+  - name: gan_ramp_d_lead
+    start: 20k
+    dur: 60k
+
+    lr_g_target: 1.0e-4
+    lr_d_target: 1.2e-4
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 1.0
+    # [2] GAN
+    adversarial_weight: 0.15
+    roi_scale: 1.0
+    roi_adv_weight: 0.10
+    gan_cap: 0.30
+
+    fm_weight: 2.0
+    seam_weight: 0.10
+    perc_in_weight: 0.10
+    perc_out_weight: 0.05
+    l1_hole_weight: 5.0
+    tv_inhole_weight: 0.15
+    # [4] Gating/Spectral
+    spec_l1_weight: 0.05
+    spectral_dropout_rate: 0.0
+    gate_temp: 1.0
+    gate_prior_weight: 0.0
+    lpips_weight: 0.0
+  # -------------------------------------------
+
+  # -------------------------------------------
+  - name: mainline_converge
+    start: 80k
+    dur: 20k
+
+    lr_g_target: 1.0e-4
+    lr_d_target: 1.0e-4
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 2.0
+    # [2] GAN
+    adversarial_weight: 0.20
+    roi_scale: 1.0
+    roi_adv_weight: 0.15
+    gan_cap: 0.40
+
+    fm_weight: 4.0
+    seam_weight: 0.25
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+    l1_hole_weight: 4.0
+    tv_inhole_weight: 0.10
+    # [4] Gating/Spectral
+    spec_l1_weight: 0.08
+    spectral_dropout_rate: 0.0
+    gate_temp: 1.0
+    gate_prior_weight: 0.0
+    lpips_weight: 0.0
+  # -------------------------------------------
+
+  # -------------------------------------------
+  - name: late_finetune_convergence
+    start: 100k
+    dur: 100k
+
+    lr_g_target: 9.0e-5
+    lr_d_target: 9.0e-5
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 4.0
+    # [2] GAN
+    adversarial_weight: 0.25
+    roi_scale: 1.0
+    roi_adv_weight: 0.20
+    gan_cap: 0.40
+
+    fm_weight: 4.5
+    seam_weight: 0.35
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+    l1_hole_weight: 3.0
+    tv_inhole_weight: 0.10
+    # [4] Gating/Spectral
+    spec_l1_weight: 0.10
+    spectral_dropout_rate: 0.0
+    gate_temp: 1.0
+    gate_prior_weight: 0.0
+    lpips_weight: 0.0
+
+  # -------------------------------------------
+
+  # -------------------------------------------
+  - name: heavy_late_refine
+    start: 200k
+    dur: 100k
+
+    lr_g_target: 8.0e-5
+    lr_d_target: 8.0e-5
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 5.0
+    # [2] GAN
+    adversarial_weight: 0.30
+    roi_scale: 1.0
+    roi_adv_weight: 0.20
+    gan_cap: 0.40
+
+    fm_weight: 3.0
+    seam_weight: 0.35
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+    l1_hole_weight: 2.0
+    tv_inhole_weight: 0.05
+    # [4] Gating/Spectral
+    spec_l1_weight: 0.10
+    spectral_dropout_rate: 0.0
+    gate_temp: 0.95
+    gate_prior_weight: 0.0
+
+    lpips_weight: 0.10
+
+
+  - name: gating_stabilization
+    start: 300k
+    dur: 40k
+    gate_temp: {start: 2.4, end: 1.8}
+    gate_prior_weight: {start: 0.06, end: 0.18}
+
+    lr_g_target: 5.0e-5
+    lr_d_target: 5.0e-5
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 6.0
+    adversarial_weight: 0.30
+    roi_scale: 1.0
+    roi_adv_weight: 0.20
+    gan_cap: 0.40
+    fm_weight: 3.0
+    seam_weight: 0.35
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+
+    l1_hole_weight: {start: 2.0, end: 1.8}
+    tv_inhole_weight: {start: 0.05, end: 0.04}
+    spec_l1_weight: {start: 0.10, end: 0.11}
+    spectral_dropout_rate: {start: 0.0, end: 0.005}
+    lpips_weight: {start: 0.10, end: 0.15}
+
+  # -----------------------------------------------------------------------
+  # [Phase 2: Soft Warmup] 340k ~ 400k
+
+  # -----------------------------------------------------------------------
+  - name: gating_warmup_soft
+    start: 340k
+    dur: 60k
+
+    gate_temp: {start: 1.8, end: 1.2}
+    gate_prior_weight: {start: 0.18, end: 0.25}
+
+
+    lr_g_target: 5.0e-5
+    lr_d_target: 5.0e-5
+    adversarial_weight: 0.30
+    roi_adv_weight: 0.25
+    gan_cap: 0.40
+    l1_hole_weight: {start: 1.8, end: 1.5}
+    tv_inhole_weight: {start: 0.04, end: 0.02}
+    spec_l1_weight: {start: 0.11, end: 0.12}
+    spectral_dropout_rate: {start: 0.005, end: 0.01}
+    lpips_weight: {start: 0.15, end: 0.20}
+
+
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 6.0
+    roi_scale: 1.0
+    fm_weight: 3.0
+    seam_weight: 0.35
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+
+  # -----------------------------------------------------------------------
+  # [Phase 3: Active Stable] 400k ~ 1000k
+
+  # -----------------------------------------------------------------------
+  - name: gating_active_stable
+    start: 400k
+    dur: 1100k
+
+    gate_temp: 1.1
+    gate_prior_weight: 0.05
+
+
+    lr_g_target: 5.0e-5
+    lr_d_target: 5.0e-5
+    adversarial_weight: 0.30
+    roi_adv_weight: 0.25
+    gan_cap: 0.40
+    l1_hole_weight: 1.5
+    tv_inhole_weight: 0.02
+    spec_l1_weight: 0.12
+    spectral_dropout_rate: 0.01
+    lpips_weight: 0.20
+
+
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 6.0
+    roi_scale: 1.0
+    fm_weight: 3.0
+    seam_weight: 0.35
+    perc_in_weight: 0.24
+    perc_out_weight: 0.18
+
+
+
+  - name: 'phase3_large_mask_refine'
+    start: '1500k'
+    dur: '120k'
+    lr_g_target: 2e-5
+    lr_d_target: 3e-5
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 6.0
+
+
+    roi_scale: 1.0
+    roi_adv_weight: 0.25
+
+
+    adversarial_weight: { start: 0.25, end: 0.30 }
+    gan_cap: 0.45
+    fm_weight: 3.5
+    lpips_weight: { start: 0.22, end: 0.25 }
+
+
+    seam_weight: 0.50
+    perc_in_weight: 0.22
+    perc_out_weight: 0.16
+
+
+    l1_hole_weight: 1.5
+    tv_inhole_weight: 0.03
+
+
+    spectral_dropout_rate: { start: 0.01, end: 0.0 }
+    spec_l1_weight: 0.12
+
+    gate_temp: { start: 1.1, end: 1.0 }
+    gate_prior_weight: 0.15
+
+
+  - name: 'phase4_texture_polish'
+    start: '1620k'
+    dur: '80k'
+    lr_g_target: 1e-5
+    lr_d_target: 3e-5
+    update_d_every: 1
+    r1_every: 16
+    r1_gamma: 7.0
+
+    roi_scale: 1.0
+    roi_adv_weight: 0.35
+
+
+    adversarial_weight: { start: 0.30, end: 0.35 }
+    gan_cap: 0.50
+    fm_weight: 4.0
+    lpips_weight: { start: 0.24, end: 0.30 }
+
+
+    seam_weight: 0.45
+    perc_in_weight: 0.20
+    perc_out_weight: 0.14
+
+    l1_hole_weight: 1.0
+    tv_inhole_weight: 0.02
+
+    spectral_dropout_rate: 0.0
+    spec_l1_weight: 0.15
+
+    gate_temp: 0.9
+    gate_prior_weight: 0.2
+
+# =======================================
+
+# =======================================
+FSM:
+  enabled: true
+  wake_d:
+    trigger_dgap_lt: 0.10
+    trigger_consecutive: 3
+    window_steps: 4000
+    override: { lr_d: 2.0e-4, update_d_every: 2,inst_noise: { sigma: 0.05, anneal: 2000 }}
+  soften_d:
+    trigger_dgap_gt: 0.65
+    trigger_consecutive: 2
+    window_steps: 2000
+    override: { update_d_every: 1 }
+  cooldown:
+    psnr_drop_ema_db: 0.30
+    window_steps: 1000
+    override: { gan_cap: 0.06 }
+
+EVAL:
+  USE_FIXED_VALSET: false
+  EVAL_INTERVAL_STEPS: 1000
+  EVAL_MICROBATCH: 8
+  COMPUTE_FID_IN_TRAIN: false
+  FID_EVAL_SAMPLES: 1000
+
+EVAL_LPIPS_VGG: true
+EVAL_BORDER_SSIM: true

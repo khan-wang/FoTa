@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use FoTa-Net, please cite the accompanying paper."
+type: software
+title: "FoTa-Net: Boundary-Conditioned Spatial--Spectral Coordination for Large-Mask Image Inpainting"
+version: 0.1.0
+repository-code: "https://github.com/khan-wang/FoTa"
+license: Apache-2.0
+authors:
+  - family-names: Peng
+    given-names: Hong
+  - family-names: Wang
+    given-names: Kehan
+  - family-names: Zheng
+    given-names: Weifa
+  - family-names: Lan
+    given-names: Guosheng
+  - family-names: Yu
+    given-names: Ying
+preferred-citation:
+  type: article
+  title: "FoTa-Net: Boundary-Conditioned Spatial--Spectral Coordination for Large-Mask Image Inpainting"
+  year: 2026
+  authors:
+    - family-names: Peng
+      given-names: Hong
+    - family-names: Wang
+      given-names: Kehan
+    - family-names: Zheng
+      given-names: Weifa
+    - family-names: Lan
+      given-names: Guosheng
+    - family-names: Yu
+      given-names: Ying
+

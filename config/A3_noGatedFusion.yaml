@@ -1,0 +1,3 @@
+EXP_TAG: "A3_noGatedFusion"
+FUSION_MODE: "avg"
+DDP_FIND_UNUSED_PARAMETERS_G: true
