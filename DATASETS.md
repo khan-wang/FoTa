@@ -53,8 +53,10 @@ interpolation and binarized at 127.
 ## Perceptual-loss encoder
 
 Training uses the same ADE20K ResNet-50 dilated encoder convention as LaMa and
-ZITS++. Download `encoder_epoch_20.pth` from the source referenced by those
-projects and keep this directory structure:
+ZITS++. Download `encoder_epoch_20.pth` from the FoTa-Net
+[checkpoint folder](https://drive.google.com/drive/folders/1X6vLWR9ukzFEY1VXR-LjsppxwlVAlEX5?usp=sharing)
+or the [upstream CSAIL source](http://sceneparsing.csail.mit.edu/model/pytorch/ade20k-resnet50dilated-ppm_deepsup/encoder_epoch_20.pth),
+then keep this directory structure:
 
 ```text
 perceptual-weights/
@@ -63,11 +65,8 @@ perceptual-weights/
       encoder_epoch_20.pth
 ```
 
-The upstream download location is:
-
-```text
-http://sceneparsing.csail.mit.edu/model/pytorch/ade20k-resnet50dilated-ppm_deepsup/encoder_epoch_20.pth
-```
+The expected SHA256 checksum is
+`d7dcb0234a2c1fd23d490d48c2c2fc5c39dc2b0ce39085b2f6f7e867fdd5d304`.
 
 Set `HRF_LOSS_WEIGHTS_PATH` to the `perceptual-weights` directory in your local
 training overlay. This file is not required for inference or standalone

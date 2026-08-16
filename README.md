@@ -48,13 +48,10 @@ route. MMCV is optional; the model falls back to
 
 ## Pretrained models
 
-The 256-pixel checkpoint folder is available on
+The checkpoint folder is available on
 [Google Drive](https://drive.google.com/drive/folders/1X6vLWR9ukzFEY1VXR-LjsppxwlVAlEX5?usp=sharing).
 See [MODEL_ZOO.md](MODEL_ZOO.md) for standardized filenames, SHA256 checksums,
 and the high-resolution release status. Store downloaded files under `weights/`.
-
-Checkpoint files are not committed to Git because each EMA file is about
-112 MB.
 
 ## Data and masks
 
@@ -138,9 +135,11 @@ HRF_LOSS_WEIGHTS_PATH: "/path/to/perceptual-weights"
 ```
 
 The 512 and 1024 presets use conservative public batch sizes. Adjust them to
-the available GPU memory without changing the architecture fields.
-Training also requires the ADE20K ResNet-50 perceptual encoder described in
-[DATASETS.md](DATASETS.md).
+the available GPU memory without changing the architecture fields. Training
+also requires the ADE20K ResNet-50 perceptual encoder available from the
+[checkpoint folder](https://drive.google.com/drive/folders/1X6vLWR9ukzFEY1VXR-LjsppxwlVAlEX5?usp=sharing)
+or its [upstream source](http://sceneparsing.csail.mit.edu/model/pytorch/ade20k-resnet50dilated-ppm_deepsup/encoder_epoch_20.pth).
+See [DATASETS.md](DATASETS.md) for the required directory structure.
 
 ## Checkpoint export
 
